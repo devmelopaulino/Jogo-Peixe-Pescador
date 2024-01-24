@@ -9,6 +9,7 @@ public class Objetos_Movimentacao : MonoBehaviour
 
     [Header("Velocidade de movimento")]
     [SerializeField] private float velociadade;
+    private int definidor_direcao;
 
     [Header("Para qual direção")]
     [SerializeField] private Direcao direcao;
@@ -17,18 +18,32 @@ public class Objetos_Movimentacao : MonoBehaviour
     {
         Movimentar();
     }
-
+    private void Start()
+    {
+        DefinirDirecao();
+    }
     private void Movimentar()
     {
-        if(direcao == Direcao.Direta)
-        {
-            Debug.Log("oi");
-        }
-
-        corpo.velocity = new Vector2 (velociadade , 0);
+        corpo.velocity = new Vector2 (velociadade * definidor_direcao , 0) * Time.fixedDeltaTime * 100f;
     }
-
-
+    private void DefinirDirecao()
+    {
+        if (direcao == Direcao.Direta)
+        {
+            definidor_direcao = 1;
+        }
+        if (direcao == Direcao.Esquerda)
+        {
+            definidor_direcao = -1;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D colisao)
+    {
+        if (colisao.gameObject.layer == 6)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
 public enum Direcao
 {

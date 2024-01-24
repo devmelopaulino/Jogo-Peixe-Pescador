@@ -28,6 +28,10 @@ public class Linha_Esticagem : MonoBehaviour
     [SerializeField] private List<GameObject> linhas;
     [Header("Prefab de Instância da Linha")]
     [SerializeField] private GameObject linha;
+    [Header("Limite de linhas")]
+    [SerializeField] private float limite_linhas;
+
+
 
     private void Update()
     {
@@ -40,7 +44,7 @@ public class Linha_Esticagem : MonoBehaviour
     {
         if (pode_usar)
         {
-            if (botao_baixo && pode_esticar)
+            if (botao_baixo && pode_esticar && linhas.Count <= limite_linhas)
             {
                 pode_esticar = false;
                 GameObject nova_parte = Instantiate(linha, this.transform);

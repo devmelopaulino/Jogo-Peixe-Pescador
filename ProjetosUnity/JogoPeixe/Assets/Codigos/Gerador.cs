@@ -17,10 +17,10 @@ public class Gerador : MonoBehaviour
     [SerializeField] private float max_tempo;
 
     [Header("Pode gerar")]
-    [SerializeField] private bool pode_gerar;
+    [SerializeField] public bool pode_gerar;
 
     [Header("Ativar vareação")]
-    [SerializeField] private bool vareacao_para_baixo;
+    [SerializeField] public bool vareacao_para_baixo;
 
     private void Update()
     {
@@ -45,8 +45,8 @@ public class Gerador : MonoBehaviour
                 Vector2 variacao_vector = new Vector2(0, Random.Range(0, 1));
                 objeto = Instantiate(objetos[(int)objeto_escolhido], (Vector2)this.transform.position + variacao_vector, Quaternion.identity);
             }
-            objeto.GetComponent<Objetos>().direcao = direcao;
-            objeto.GetComponent<Objetos>().DefinirDirecao();
+            objeto.GetComponent<Objeto>().direcao = direcao;
+            objeto.GetComponent<Objeto>().DefinirDirecao();
             pode_gerar = true;
         }
     }

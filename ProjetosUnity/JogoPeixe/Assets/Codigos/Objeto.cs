@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Objetos : MonoBehaviour
+public class Objeto : MonoBehaviour
 {
     [Header("Rigidbody2D")]
     [SerializeField] private Rigidbody2D corpo;
@@ -80,14 +80,26 @@ public class Objetos : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        if (colisao.gameObject.layer == 8 && tipo == Tipo.Humano)
+        if (colisao.gameObject.layer == 8 && tipo == Tipo.Humano &&
+            colisao.gameObject.GetComponent<Anzol>().objetos.Count < colisao.gameObject.GetComponent<Anzol>().quantidade_anzol)
         {
-            capturado = true;
             isca = colisao.gameObject;
+            isca.GetComponent<Anzol>().objetos.Add(this.gameObject);
+            capturado = true;
             sprite_renderer.sprite = sprite_capturado;
             Prender();
-            //colisao.gameObject.GetComponent<Anzol>().Captutar(this.gameObject);
         }
+        if (colisao.gameObject.layer == 9 && tipo == Tipo.Humano)
+        {
+            isca.GetComponent<Anzol>().objetos.Remove(isca.GetComponent<Anzol>().objetos[
+                isca.GetComponent<Anzol>().objetos.Count - 1]);
+            colisao.GetComponent<Peixe>().AumentarPontos();
+            Destroy(this.gameObject);
+        }
+    }
+    public void Destruir()
+    {
+        Destroy(this.gameObject);
     }
 }
 public enum Tipo

@@ -53,7 +53,7 @@ public class Linha : MonoBehaviour
                 pode_esticar = false;
                 GameObject nova_parte = Instantiate(linha, this.transform);
                 nova_parte.name = "Linha " + (linhas.Count - 1);
-                nova_parte.transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 1].transform.rotation.eulerAngles.z));
+                //nova_parte.transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 1].transform.rotation.eulerAngles.z));
                 nova_parte.transform.position = new Vector2(linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
                 nova_parte.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 linhas.Add(nova_parte);

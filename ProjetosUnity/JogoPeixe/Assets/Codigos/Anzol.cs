@@ -25,6 +25,12 @@ public class Anzol : MonoBehaviour
     [Header("Pode forçar")]
     [SerializeField] private bool pode_forcar;
 
+    [Header("Lista de objetos no anzol")]
+    [SerializeField] public List<GameObject> objetos;
+
+    [Header("Quantiade máxima de objetos no anzol")]
+    [SerializeField] public float quantidade_anzol;
+
     private void Update()
     {
         DetectarBotao();

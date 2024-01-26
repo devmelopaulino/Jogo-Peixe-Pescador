@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,13 +18,19 @@ public class Objetos : MonoBehaviour
     private int definidor_direcao;
 
     [Header("Para qual direção")]
-    [SerializeField] private Direcao direcao;
+    [SerializeField] public Direcao direcao;
 
     [Header("Capturado")]
     [SerializeField] private bool capturado;
 
+    [Header("Pode Movientar")]
+    [SerializeField] private bool pode_movimentar;
+
     [Header("Sprite Capturado")]
     [SerializeField] private Sprite sprite_capturado;
+
+    [Header("Corrente")]
+    [SerializeField] private HingeJoint2D corrente;
 
     [Header("Isca")]
     [SerializeField] private GameObject isca;
@@ -35,20 +42,19 @@ public class Objetos : MonoBehaviour
     }
     private void Update()
     {
-        if(capturado)
+        if (capturado)
         {
-            Prender();
+            this.transform.position = isca.transform.position;
         }
-    }
-    private void Start()
-    {
-        DefinirDirecao();
     }
     private void Movimentar()
     {
-        corpo.velocity = new Vector2 (velociadade * definidor_direcao , 0) * Time.fixedDeltaTime * 100f;
+        if (pode_movimentar)
+        {
+            corpo.velocity = new Vector2(velociadade * definidor_direcao, 0) * Time.fixedDeltaTime * 100f;
+        }
     }
-    private void DefinirDirecao()
+    public void DefinirDirecao()
     {
         if (direcao == Direcao.Direta)
         {
@@ -57,13 +63,16 @@ public class Objetos : MonoBehaviour
         if (direcao == Direcao.Esquerda)
         {
             definidor_direcao = -1;
+            transform.localScale = new Vector2(this.transform.localScale.x * -1,
+                transform.localScale.y);
         }
         
     }
     private void Prender()
     {
         this.transform.position = isca.transform.position;
-        //this.transform.rotation = isca.transform.rotation;
+        corrente.enabled = true;
+        corrente.connectedBody = isca.GetComponent<Rigidbody2D>();
     }
     private void OnTriggerEnter2D(Collider2D colisao)
     {
@@ -76,6 +85,7 @@ public class Objetos : MonoBehaviour
             capturado = true;
             isca = colisao.gameObject;
             sprite_renderer.sprite = sprite_capturado;
+            Prender();
             //colisao.gameObject.GetComponent<Anzol>().Captutar(this.gameObject);
         }
     }

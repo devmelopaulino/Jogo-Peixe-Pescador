@@ -39,7 +39,6 @@ public class Anzol : MonoBehaviour
             corpo.AddForce(1000 * forca * Vector2.right);
             corpo.AddForce(Vector2.up * forca / fracao_forca_cima * 1000);          
             yield return new WaitForSeconds(tempo_espera);
-            //corpo.velocity = Vector2.zero;
             pode_forcar = true;
         }
         if (botao_esquerda && pode_forcar)
@@ -49,14 +48,10 @@ public class Anzol : MonoBehaviour
             corpo.AddForce(1000 * forca * Vector2.left);
             corpo.AddForce(Vector2.up * forca / fracao_forca_cima * 1000);
             yield return new WaitForSeconds(tempo_espera);
-            //corpo.velocity = Vector2.zero;
             pode_forcar = true;
         }
     }  
-    //public void Captutar(GameObject humano)
-    //{
 
-    //}
     private void DetectarBotao()
     {
         botao_esquerda = Input.GetKeyDown(botao_para_esquerda);

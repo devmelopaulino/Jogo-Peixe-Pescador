@@ -31,6 +31,11 @@ public class Anzol : MonoBehaviour
     [Header("Quantiade máxima de objetos no anzol")]
     [SerializeField] public float quantidade_anzol;
 
+    [Header("Linha")]
+    [SerializeField] public Linha linha;
+
+    [SerializeField] public Peixe peixe;
+
     private void Update()
     {
         DetectarBotao();
@@ -56,7 +61,18 @@ public class Anzol : MonoBehaviour
             yield return new WaitForSeconds(tempo_espera);
             pode_forcar = true;
         }
-    }  
+    }
+    public void DestruirHumanos()
+    {
+        if (objetos.Count > 0)
+        {
+            foreach (GameObject humanos in objetos)
+            {
+                Destroy(humanos);
+            }
+            objetos.Clear();
+        }
+    }
 
     private void DetectarBotao()
     {

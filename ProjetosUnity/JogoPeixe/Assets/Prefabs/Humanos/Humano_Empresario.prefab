@@ -153,13 +153,20 @@ MonoBehaviour:
   corpo: {fileID: 2462041634619550688}
   sprite_renderer: {fileID: 752900761098962877}
   tipo: 1
-  velociadade: 1.5
+  habilidade: 0
+  velociadade: 3
   direcao: 1
   capturado: 0
   pode_movimentar: 1
   sprite_capturado: {fileID: 21300000, guid: cf0d0f15dd1e6f64db0d119bed7f7b8a, type: 3}
   corrente: {fileID: 2466330069784830701}
   isca: {fileID: 0}
+  pode_usar: 1
+  valor_antingo_ida: 0
+  valor_antigo_volta: 0
+  Collider_Capturado: {fileID: 2221392656697416206}
+  Collider_Normal: {fileID: 7056150782207007087}
+  qt_pontos: 100
 --- !u!212 &752900761098962877
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -11,9 +11,9 @@ public class Linha : MonoBehaviour
     [SerializeField] private bool pode_usar;
 
     [Header("Ativar a permissão de esticar a linha")]
-    [SerializeField] private bool pode_esticar;
+    [SerializeField] public bool pode_esticar;
     [Header("Ativar a permissão de voltar a linha")]
-    [SerializeField] private bool pode_voltar;
+    [SerializeField] public bool pode_voltar;
 
     [Header("Seta para cima pressionada")]
     [SerializeField] private bool botao_cima;
@@ -33,13 +33,18 @@ public class Linha : MonoBehaviour
     [SerializeField] private float limite_linhas;
 
     [Header("Tempo para subir a linha")]
-    [SerializeField] private float tempo_subida;
+    [SerializeField] public float tempo_subida;
     [Header("Tempo para descer a linha")]
-    [SerializeField] private float tempo_descida;
+    [SerializeField] public float tempo_descida;
 
     private void Update()
     {
         DetectarBotao();
+        //StartCoroutine(Esticar());
+        //StartCoroutine(Voltar());
+    }
+    private void FixedUpdate()
+    {
         StartCoroutine(Esticar());
         StartCoroutine(Voltar());
     }
@@ -48,7 +53,7 @@ public class Linha : MonoBehaviour
     {
         if (pode_usar)
         {
-            if (botao_baixo && pode_esticar && linhas.Count <= limite_linhas)
+            if (botao_baixo && pode_esticar && linhas.Count <= limite_linhas && !botao_cima)
             {
                 pode_esticar = false;
                 GameObject nova_parte = Instantiate(linha, this.transform);
@@ -58,8 +63,8 @@ public class Linha : MonoBehaviour
                 nova_parte.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 linhas.Add(nova_parte);
                 //linhas[linhas.Count - 2].transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 1].transform.rotation.eulerAngles.z));
-                anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 anzol.transform.position =  new Vector2( linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
+                anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 yield return new WaitForSeconds(tempo_descida);
                 pode_esticar = true;
             }
@@ -69,18 +74,29 @@ public class Linha : MonoBehaviour
     {
         if (pode_usar)
         {
-            if(botao_cima && linhas.Count > 5 && pode_voltar)
+            if(botao_cima && linhas.Count > 5 && pode_voltar && !botao_baixo)
             {
                 pode_voltar = false;
                 linhas[linhas.Count - 2].transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 3].transform.rotation.eulerAngles.z));
                 Destroy(linhas[linhas.Count - 1]);
                 linhas.Remove(linhas[linhas.Count - 1]);
-                anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 anzol.transform.position = new Vector2(linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
+                anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 yield return new WaitForSeconds(tempo_subida);
                 pode_voltar = true;
             }
         }
+    }
+
+    public void DestruirLinha()
+    {
+        for (int i = linhas.Count - 1; i >= 5; i--)
+        {
+            Destroy(linhas[i]);
+            linhas.RemoveAt(i);
+        }
+        anzol.transform.position = new Vector2(linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
+        anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
     }
     private void DetectarBotao()
     {

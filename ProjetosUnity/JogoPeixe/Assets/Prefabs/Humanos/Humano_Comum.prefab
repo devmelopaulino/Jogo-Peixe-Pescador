@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5492295956266671763}
@@ -52,13 +52,20 @@ MonoBehaviour:
   corpo: {fileID: 3267702471270747336}
   sprite_renderer: {fileID: 8007228288334285438}
   tipo: 1
-  velociadade: 1.5
-  direcao: 1
+  habilidade: 0
+  velociadade: 1.3
+  direcao: 0
   capturado: 0
   pode_movimentar: 1
   sprite_capturado: {fileID: 21300000, guid: 22c6d57cdf8977149a558831e7370700, type: 3}
   corrente: {fileID: -5116385761026349155}
   isca: {fileID: 0}
+  pode_usar: 1
+  valor_antingo_ida: 0
+  valor_antigo_volta: 0
+  Collider_Capturado: {fileID: 706298783970736758}
+  Collider_Normal: {fileID: 6930193234671694539}
+  qt_pontos: 10
 --- !u!212 &8007228288334285438
 SpriteRenderer:
   m_ObjectHideFlags: 0

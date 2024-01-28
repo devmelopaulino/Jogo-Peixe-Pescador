@@ -9,12 +9,13 @@ public class Vida_Hud : MonoBehaviour
     [SerializeField] List<GameObject> vidas;
     public void ApgarVida()
     {
-        Destroy(vidas[vidas.Count - 1]);
+        GameObject vida = vidas[vidas.Count - 1];
+        Destroy(vida);
         vidas.Remove(vidas[vidas.Count - 1]);
     }
     public void AddVida()
     {
-        Instantiate(obj_vida, this.transform);
-        vidas.Add(obj_vida);
+        GameObject vida = Instantiate(obj_vida, this.transform);
+        vidas.Add(vida);
     }
 }

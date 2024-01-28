@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Objeto : MonoBehaviour
 {
@@ -53,18 +54,25 @@ public class Objeto : MonoBehaviour
     private bool pode_dash = true;
 
     private bool pode_devio = true;
+
+    private bool no_arpao = false;
+    private Transform arpao_local;
     private void FixedUpdate()
     {
-        Movimentar();
+        if (!capturado || !no_arpao)
+        {
+            Movimentar();
+        }
+        if(no_arpao)
+        {
+            this.transform.position = arpao_local.transform.position;
+        }
     }
     private void Update()
     {
         StartCoroutine(AtivarHabilidade());
-        if (capturado)
-        {
-            this.transform.position = isca.transform.position;
-        }
     }
+
     private void Movimentar()
     {
         if (pode_movimentar)
@@ -102,26 +110,26 @@ public class Objeto : MonoBehaviour
         if(habilidade == Habilidade.Dash && pode_dash)
         {
             pode_dash = false;
-            yield return new WaitForSeconds(2.2f);
-            velociadade = velociadade * 4f;
+            yield return new WaitForSeconds(2.3f);
+            velociadade = velociadade * 3f;
             yield return new WaitForSeconds(0.5f);
-            velociadade = velociadade / 4;
+            velociadade = velociadade / 3;
         }
         if (habilidade == Habilidade.Desvio && pode_devio)
         {
             pode_devio = false;
-            yield return new WaitForSeconds(2.2f);
+            yield return new WaitForSeconds(2.6f);
             pode_movimentar = false;
             corpo.velocity = Vector2.zero;
             if (transform.position.y >= -2)
             {
-                corpo.velocity = new Vector2(velociadade * definidor_direcao, velociadade * -1.7f) * Time.fixedDeltaTime * 100f;
+                corpo.velocity = new Vector2(velociadade * definidor_direcao, velociadade * -2.2f) * Time.fixedDeltaTime * 100f;
             }
             if(transform.position.y <= -2)
             {
-                corpo.velocity = new Vector2(velociadade * definidor_direcao, velociadade * 1.7f) * Time.fixedDeltaTime * 100f;
+                corpo.velocity = new Vector2(velociadade * definidor_direcao, velociadade * 2.2f) * Time.fixedDeltaTime * 100f;
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
             corpo.velocity = Vector2.zero;
             pode_movimentar = true;
         }
@@ -142,20 +150,26 @@ public class Objeto : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        if(colisao.gameObject.layer == 8)
+        {
+            isca = colisao.gameObject;
+        }
         if (colisao.gameObject.layer == 8 && tipo == Tipo.Humano &&
             colisao.gameObject.GetComponent<Anzol>().objetos.Count < colisao.gameObject.GetComponent<Anzol>().quantidade_anzol)
         {
-            isca = colisao.gameObject;
-            isca.GetComponent<Anzol>().objetos.Add(this.gameObject);
-            capturado = true;
+            pode_movimentar = false;
             sprite_renderer.sprite = sprite_capturado;
             this.transform.position = isca.transform.position;
+            this.transform.parent = isca.transform;
+            isca.GetComponent<Anzol>().objetos.Add(this.gameObject);
+            corpo.velocity = Vector2.zero;
+            capturado = true;
             corrente.enabled = true;
             corrente.connectedBody = isca.GetComponent<Rigidbody2D>();
             Collider_Normal.enabled = false;
             Collider_Capturado.SetActive(true);
         }
-        if (colisao.gameObject.layer == 9 && tipo == Tipo.Humano)
+        if (colisao.gameObject.layer == 9 && tipo == Tipo.Humano && !no_arpao)
         {
             isca.GetComponent<Anzol>().objetos.Remove(isca.GetComponent<Anzol>().objetos[
                 isca.GetComponent<Anzol>().objetos.Count - 1]);
@@ -169,13 +183,35 @@ public class Objeto : MonoBehaviour
             colisao.GetComponent<Peixe>().AumentarPontos(qt_pontos);
             Destroy(this.gameObject);
         }
-        if(colisao.gameObject.layer == 8 && tipo == Tipo.Obstaculo)
+        if(colisao.gameObject.layer == 8 && tipo == Tipo.Obstaculo &&
+            isca.GetComponent<Anzol>().pode_morrer)
         {
             isca = colisao.gameObject;
             isca.GetComponent<Anzol>().peixe.DiminuirVida();
             isca.GetComponent<Anzol>().linha.DestruirLinha();
             isca.GetComponent<Anzol>().DestruirHumanos();
             Destroy(this.gameObject);
+        }
+        if (colisao.gameObject.layer == 9 && tipo == Tipo.Humano && no_arpao)
+        {
+            colisao.GetComponent<Peixe>().AumentarPontos(qt_pontos);
+            Destroy(this.gameObject);
+        }
+        if (colisao.gameObject.layer == 10 )
+        {
+            if(tipo == Tipo.Obstaculo)
+            {
+                Destroy(this.gameObject);
+            }
+            if (tipo == Tipo.Humano)
+            {
+                no_arpao = true;
+                pode_dash = false;
+                pode_devio = false;
+                pode_movimentar = false;
+                pode_usar = false;
+                arpao_local = colisao.gameObject.GetComponent<Arpao>().local_pesca;
+            }
         }
     }
     public void Destruir()
@@ -189,6 +225,11 @@ public class Objeto : MonoBehaviour
             isca.GetComponent<Anzol>().linha.tempo_descida = valor_antingo_ida;
             isca.GetComponent<Anzol>().linha.tempo_subida = valor_antigo_volta;
         }
+    }
+    public void IrAutomatico(Transform local)
+    {
+        Vector3 direcao = (local.position - transform.position).normalized;
+        transform.position += direcao * 10f * Time.deltaTime;
     }
 }
 public enum Tipo

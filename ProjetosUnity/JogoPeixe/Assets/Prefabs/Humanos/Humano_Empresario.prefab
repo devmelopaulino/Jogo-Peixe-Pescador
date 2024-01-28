@@ -154,7 +154,7 @@ MonoBehaviour:
   sprite_renderer: {fileID: 752900761098962877}
   tipo: 1
   habilidade: 0
-  velociadade: 3
+  velociadade: 3.3
   direcao: 1
   capturado: 0
   pode_movimentar: 1
@@ -207,7 +207,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 157d2b685e315a34d82f30eba6ee08f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -321,7 +321,7 @@ HingeJoint2D:
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_BreakAction: 3
+  m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}

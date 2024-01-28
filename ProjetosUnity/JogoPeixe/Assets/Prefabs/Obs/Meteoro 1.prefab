@@ -51,7 +51,7 @@ MonoBehaviour:
   sprite_renderer: {fileID: 7019919398918705049}
   tipo: 0
   habilidade: 0
-  velociadade: 1.4
+  velociadade: 1.5
   direcao: 0
   capturado: 0
   pode_movimentar: 1

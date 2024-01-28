@@ -36,6 +36,12 @@ public class Anzol : MonoBehaviour
 
     [SerializeField] public Peixe peixe;
 
+    [SerializeField] public bool pode_morrer = true;
+
+    [SerializeField] SpriteRenderer spriterender;
+
+    [SerializeField] Sprite[] anzois;
+
     private void Update()
     {
         DetectarBotao();
@@ -78,5 +84,27 @@ public class Anzol : MonoBehaviour
     {
         botao_esquerda = Input.GetKeyDown(botao_para_esquerda);
         botao_direita = Input.GetKeyDown(botao_para_direita);
+    }
+
+    //public IEnumerator Imortal()
+    //{
+    //    pode_morrer = false;
+    //    yield return new WaitForSeconds(10f);
+    //    pode_morrer = true;
+    //}
+    public IEnumerator Dobrar()
+    {
+        spriterender.sprite = anzois[1];
+        quantidade_anzol = 2;
+        yield return new WaitForSeconds(15f);
+        spriterender.sprite = anzois[0];
+        quantidade_anzol = 1;
+    }
+
+    private void OnEnable()
+    {
+        spriterender.sprite = anzois[0];
+        quantidade_anzol = 1;
+        DestruirHumanos();
     }
 }

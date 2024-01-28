@@ -4,26 +4,14 @@ using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode()]
 public class BarraProgresso : MonoBehaviour
 {
-    public int max;
-    public int atual;
+    public float max;
+    public float atual;
     public Image mascara;
-    // Start is called before the first frame update
-    void Start()
+    public void Progresso()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Progresso();
-    }
-    void Progresso()
-    { 
-        float progresso = (float)atual/(float)max;
+        float progresso = atual/max;
         mascara.fillAmount = progresso;
     }
 }

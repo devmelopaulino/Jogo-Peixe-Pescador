@@ -6,25 +6,32 @@ using UnityEngine;
 
 public class Sistema_Traducao : MonoBehaviour
 {
-    [SerializeField] private Lingua escolha;
+    [SerializeField] public Lingua escolha;
 
     [SerializeField] private TextMeshProUGUI texto_menu_1;
     [SerializeField] private TextMeshProUGUI texto_menu_2;
     [SerializeField] private TextMeshProUGUI texto_menu_3;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
+    [SerializeField] GameObject Sistema;
 
+    private void Start()
+    {
+        escolha = Sistema.GetComponent<Sistema_Traducao>().escolha;
+        if(texto_menu_1)
+        {
+            MudarMenu(escolha);
+        }
+    }
     public void LingaPTBR()
     {
         escolha = Lingua.PtBr;
+        Sistema.GetComponent<Sistema_Traducao>().escolha = escolha;
         MudarMenu(escolha);
     }
     public void LingaENG()
     {
         escolha = Lingua.Eng;
+        Sistema.GetComponent<Sistema_Traducao>().escolha = escolha;
         MudarMenu(escolha);
     }
 
@@ -40,7 +47,7 @@ public class Sistema_Traducao : MonoBehaviour
         {
             texto_menu_1.text = "Jogar";
             texto_menu_2.text = "Tutorial";
-            texto_menu_3.text = "Creditos";
+            texto_menu_3.text = "Créditos";
         }
     }
 

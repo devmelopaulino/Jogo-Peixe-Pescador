@@ -40,11 +40,6 @@ public class Linha : MonoBehaviour
     private void Update()
     {
         DetectarBotao();
-        //StartCoroutine(Esticar());
-        //StartCoroutine(Voltar());
-    }
-    private void FixedUpdate()
-    {
         StartCoroutine(Esticar());
         StartCoroutine(Voltar());
     }
@@ -58,11 +53,9 @@ public class Linha : MonoBehaviour
                 pode_esticar = false;
                 GameObject nova_parte = Instantiate(linha, this.transform);
                 nova_parte.name = "Linha " + (linhas.Count - 1);
-                //nova_parte.transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 1].transform.rotation.eulerAngles.z));
                 nova_parte.transform.position = new Vector2(linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
                 nova_parte.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 linhas.Add(nova_parte);
-                //linhas[linhas.Count - 2].transform.rotation = Quaternion.Euler(new Vector3(0, 0, linhas[linhas.Count - 1].transform.rotation.eulerAngles.z));
                 anzol.transform.position =  new Vector2( linhas[linhas.Count - 1].transform.position.x, linhas[linhas.Count - 1].transform.position.y + linha_distancia);
                 anzol.GetComponent<HingeJoint2D>().connectedBody = linhas[linhas.Count - 1].GetComponent<Rigidbody2D>();
                 yield return new WaitForSeconds(tempo_descida);
@@ -116,6 +109,12 @@ public class Linha : MonoBehaviour
         {
             botao_cima = false;
         }
+    }
+
+    public void AcelerarLinha()
+    {
+        tempo_descida = tempo_descida / 1.1f;
+        tempo_subida = tempo_subida / 1.1f;
     }
 
 }

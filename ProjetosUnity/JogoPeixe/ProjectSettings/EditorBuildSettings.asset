@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Cenas/TelaInicial.unity
+    guid: 3e383027ebebe354a8b180b6509a10ad
+  - enabled: 1
+    path: Assets/Cenas/Jogo.unity
+    guid: 78beecfb60f0f394f85560601a01f51a
+  - enabled: 1
+    path: Assets/Cenas/Tutorial.unity
+    guid: 87230e2c897117a46b5c2d6c4b99c6c7
+  - enabled: 1
+    path: Assets/Cenas/Creditos.unity
+    guid: 5c6cea9eadd3fc043b0a0a2e345051c6
+  - enabled: 1
+    path: Assets/Cenas/Cut.unity
+    guid: 4cf5d1e19c404ed42bf5780318476d9e
   m_configObjects: {}

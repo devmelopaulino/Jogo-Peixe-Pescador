@@ -14,6 +14,22 @@ public class Sistema_Traducao : MonoBehaviour
 
     [SerializeField] GameObject Sistema;
 
+    private static GameObject instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this.gameObject;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
     private void Start()
     {
         escolha = Sistema.GetComponent<Sistema_Traducao>().escolha;
@@ -50,6 +66,7 @@ public class Sistema_Traducao : MonoBehaviour
             texto_menu_3.text = "Créditos";
         }
     }
+    
 
 }
 public enum Lingua

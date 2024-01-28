@@ -7,6 +7,9 @@ TagManager:
   - Linha
   - Peixe
   - Traducao
+  - Texto1
+  - Texto2
+  - Texto3
   layers:
   - Default
   - TransparentFX
